@@ -1,4 +1,4 @@
-
+/*package io.zipcoder.casino.utilities.CasinoGame;
 
 import java.util.function.Supplier;
 
@@ -26,3 +26,4 @@ public enum GameEnum {
         }
     }
 }
+*/
