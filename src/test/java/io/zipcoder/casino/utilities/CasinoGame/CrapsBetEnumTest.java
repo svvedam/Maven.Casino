@@ -13,12 +13,12 @@ public class CrapsBetEnumTest {
     CrapsBet testBet;
     Integer expectedPayout;
     Integer actualPayout;
-    Craps craps = new Craps();
+    Craps craps = new Craps(new CrapsPlayer(),new Console(System.in,System.out));
 
     @Test
     public void storeBetTest(){
         expectedBet = 50;
-        CrapsBet.DONTPASS.betOn(expectedBet);
+        CrapsBet.DONTPASS.placeBet(expectedBet);
         actualBet = CrapsBet.DONTPASS.getBet();
         Assert.assertEquals(expectedBet,actualBet);
 
@@ -27,8 +27,8 @@ public class CrapsBetEnumTest {
     @Test
     public void clearBetTest(){
         expectedBet = 50;
-        CrapsBet.ACES.betOn(expectedBet);
-        CrapsBet.ACES.clearBet();
+        CrapsBet.PASSLINE.placeBet(expectedBet);
+        CrapsBet.PASSLINE.clearBet();
         Integer didBetClear = CrapsBet.PASSLINE.currentBet;
         Integer finalbet = 0;
         Assert.assertEquals(finalbet,didBetClear);
@@ -38,7 +38,7 @@ public class CrapsBetEnumTest {
     public void getPayoutTest1(){
         expectedBet = 50;
         expectedPayout = 100;
-        CrapsBet.PASSLINE.betOn(expectedBet);
+        CrapsBet.PASSLINE.placeBet(expectedBet);
         actualPayout = CrapsBet.PASSLINE.getPayout();
         Assert.assertEquals(expectedPayout,actualPayout);
         Integer didBetClear = CrapsBet.PASSLINE.currentBet;
@@ -50,19 +50,12 @@ public class CrapsBetEnumTest {
     public void getPayoutTest2(){
         expectedBet = 50;
         expectedPayout = 110;
-        CrapsBet.PLACE6.betOn(expectedBet);
-        actualPayout = CrapsBet.PLACE6.getPayout();
+        CrapsBet.PASSLINE.placeBet(expectedBet);
+        actualPayout = CrapsBet.PASSLINE.getPayout();
         Assert.assertEquals(expectedPayout,actualPayout);
     }
 
-    @Test
-    public void compareStringTest(){
-        testBet = CrapsBet.PASSLINE;
-        String betString = "Passline";
-        CrapsBet actualBet = craps.compareStringToBet(betString);
-        Assert.assertEquals(testBet,actualBet);
 
-    }
 
 
 
