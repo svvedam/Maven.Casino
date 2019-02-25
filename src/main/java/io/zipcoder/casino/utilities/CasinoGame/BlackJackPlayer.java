@@ -1,7 +1,13 @@
 package io.zipcoder.casino.utilities.CasinoGame;
-import java.lang.*;
+//import java.io.Console;
+import java.io.InputStream;
+import java.io.PrintStream;
+public class BlackJackPlayer extends Player implements GamblingPlayer {
 
-public class BlackJackPlayer implements GamblingPlayer {
+    Console console = new Console(System.in,System.out);
+    String bjname;
+    Integer bjbalance;
+
 
 
   public String name ;
@@ -27,6 +33,8 @@ public class BlackJackPlayer implements GamblingPlayer {
 
         balance = this.balance;
     }
+
+
 
 
 
@@ -72,4 +80,16 @@ public class BlackJackPlayer implements GamblingPlayer {
 
         return integerInput;
     }
+    public Integer recieveWinnings() {
+
+        Integer integerInput = console.getIntegerInput("");
+
+            return integerInput;
+        }
+
+
 }
+
+
+
+

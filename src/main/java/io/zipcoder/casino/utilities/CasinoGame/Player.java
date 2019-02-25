@@ -12,7 +12,19 @@ public class Player {
         this.balance = balance;
         //playerHand playerHand =new playerHand();
 
+    }
 
+    public Player() {
+
+        this("",0);
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {

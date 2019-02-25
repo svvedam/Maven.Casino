@@ -4,7 +4,7 @@ public class Card {
 
     private Suit suit;
     private BlackJackEnum blackJackEnum;
-    private CardDefaultEnum cardDefaultEnum;
+    public CardDefaultEnum cardDefaultEnum;
 
     public Card (BlackJackEnum blackJackEnum, Suit suit)
     {
@@ -42,6 +42,10 @@ public class Card {
     }
     public void setCardDefaultEnum(CardDefaultEnum cardDefaultEnum){
         this.cardDefaultEnum = cardDefaultEnum;
+    }
+
+    public String toString(){
+        return getDefaultEnum() + " of " + getSuit();
     }
 
 
