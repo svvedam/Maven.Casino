@@ -44,5 +44,9 @@ public class Card {
         this.cardDefaultEnum = cardDefaultEnum;
     }
 
+    public String toString(){
+        return getDefaultEnum() + " of " + getSuit();
+    }
+
 
 }
