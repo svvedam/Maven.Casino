@@ -13,6 +13,9 @@ public class GoFishPlayer {
     public void setName(String name) {
         this.name = name;
     }
+    public void addCard(Card card) {
+        playerHand.addCard(card);
+    }
 
     public Hand getPlayerHand() {
         return playerHand;
