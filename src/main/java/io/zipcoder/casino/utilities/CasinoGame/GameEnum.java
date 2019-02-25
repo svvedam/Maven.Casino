@@ -1,11 +1,12 @@
-/*package io.zipcoder.casino.utilities.CasinoGame;
+package io.zipcoder.casino.utilities.CasinoGame;
 
 import java.util.function.Supplier;
 
 public enum GameEnum {
-    BLACKJACK(BlackJack::new),
+//    BLACKJACK(BlackJack::new),
     CRAPS(Craps::new),
-    GOFISH(GoFish::new);
+    GOFISH(GoFish::new),
+    WAR(War::new);
 
     private final Supplier<Game> supplier;
 
@@ -26,4 +27,3 @@ public enum GameEnum {
         }
     }
 }
-*/

@@ -18,6 +18,10 @@ public class War extends CardGame implements Game {
     Card p1WarCard;
     Card p2WarCard;
 
+    public War() {
+
+    }
+
     public static Hand getPlayer1Hand() {
         Deck warPlayerDeck = new Deck();
         Hand player1Hand = new Hand();
