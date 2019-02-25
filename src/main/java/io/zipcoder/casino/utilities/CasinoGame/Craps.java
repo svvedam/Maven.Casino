@@ -24,7 +24,13 @@ public class Craps extends DiceGame implements GamblingGame {
 
     @Override
     public void play() {
-
+        playing = true;
+        while(playing){
+            bettingPhase();
+            tellUserToShootUntilTheyDo();
+            payoutPhase();
+            askIfUserWantsToStopPlaying();
+        }
     }
 
     public boolean askIfUserWantsToMakeABet() {
@@ -84,23 +90,25 @@ public class Craps extends DiceGame implements GamblingGame {
     }
 
     public void bettingPhase(){ //TODO - fix recursive calls and add feature to show current bets made
-        if(askIfUserWantsToMakeABet()){
-            takeThePlayerBetAndPutItOnTheAppropriateBetLocation();
-            bettingPhase();
+        if(point == 0) {
+            if (askIfUserWantsToMakeABet()) {
+                takeThePlayerBetAndPutItOnTheAppropriateBetLocation();
+                bettingPhase();
+            }
         }
     }
 
     public void rollDiceAndPrintResult(){
-        console.println("%nShootin!!! %n%n%n");
+        console.println("%nShootin!!! %n%n");
         crapsDice.rollDice();
         console.println("Die 1 landed on: " + crapsDice.getValue(0));
         console.println("Die 2 landed on: " + crapsDice.getValue(1) + "%n");
-        console.println("You rolled a: " + crapsDice.getSum());
+        console.println("You rolled a: " + crapsDice.getSum() +"%n");
     }
 
     public void tellUserToShootUntilTheyDo(){ //TODO - recursive
         String shoot = console.getStringInput("Time to throw the dice!%n%nType 'shoot' shooter!%n");
-        if("shoot".equalsIgnoreCase(shoot)){
+        if("shoot".equalsIgnoreCase(shoot)|| "r".equalsIgnoreCase(shoot)){
             rollDiceAndPrintResult();
         }
         else {
@@ -109,12 +117,82 @@ public class Craps extends DiceGame implements GamblingGame {
         }
     }
 
-    public void pointIsOffAfterRollActions(){
-        
+    public void passWin(){
+        console.println("Winner! Pay the Pass and take the Dont's");
+        crapsPlayer.receiveWinnings(CrapsBet.PASSLINE.getPayout());
+        CrapsBet.DONTPASS.clearBet();
+    }
+    public void craps(){
+        console.println("Craps! Take the Pass and pay the Dont's");
+        CrapsBet.PASSLINE.clearBet();
+        crapsPlayer.receiveWinnings(CrapsBet.DONTPASS.getPayout());
+    }
+    public void establishPoint(Integer rollValue){
+        point = rollValue;
+        console.println(point +"! The point is " + point + "!");
+    }
+    public void sevenOutPointAway(){
+        console.println("7 out! Point away!");
+        CrapsBet.PASSLINE.clearBet();
+        crapsPlayer.receiveWinnings(CrapsBet.DONTPASS.getPayout());
+        point = 0;
+    }
+    public void pointAway(){
+        console.println("Point away!");
+        point = 0;
     }
 
+    public void pointIsOffAfterRollActions(){
+        for(CrapsRolls roll : CrapsRolls.values()){
+            if(roll.value == crapsDice.getSum()){
+                if(roll.possiblePoint){
+                    establishPoint(roll.value);
+                }
+                else{
+                    if(roll.pointOffPass){
+                        passWin();
+                    }
+                    else{
+                        craps();
+                    }
+                }
+            }
+        }
+    }
+    public void pointIsOnAfterRollActions(){
+        for(CrapsRolls roll : CrapsRolls.values()){
+            if(roll.value == crapsDice.getSum()){
+                if(roll.value == point){
+                    passWin();
+                    pointAway();
+                }
+                else if(roll.value == 7){
+                    sevenOutPointAway();
+                }
+                else{
+                    //Place bet payout conditionals go here
+                }
+            }
+        }
+    }
+    public void payoutPhase(){
+        if(point == 0){
+            pointIsOffAfterRollActions();
+        }
+        else{
+            pointIsOnAfterRollActions();
+        }
+    }
 
-
+    public void askIfUserWantsToStopPlaying(){
+        if (point == 0) {
+            console.println("Your current balance is: $" + crapsPlayer.getBalance());
+            String response = console.getStringInput("Do you want to keep playing?%n%nType 'Quit' to stop");
+            if ("quit".equalsIgnoreCase(response)) {
+                playing = false;
+            }
+        }
+    }
 
 
 
