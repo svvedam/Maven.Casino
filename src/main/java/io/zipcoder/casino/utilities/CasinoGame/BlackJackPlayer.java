@@ -3,26 +3,73 @@ import java.lang.*;
 
 public class BlackJackPlayer implements GamblingPlayer {
 
-    String name;
-    Integer balance;
 
- public BlackJackPlayer(Player player) {
+  public String name ;
+  public Integer balance;
+  public Integer remainingBalance;
 
-     }
+    Console console = new Console(System.in, System.out);
 
-    public Integer placeBet() {
 
-    //     Integer betValue ,balance;
+   public BlackJackPlayer(String name, Integer balance){
 
-  // Player player = new Player("","");
+        name = this.name;
 
-   //balance = player.balance - betValue;
+        balance = this.balance;
+    }
+    public BlackJackPlayer(String name){
 
-    //return  balance;
-        return 0;
+        name = this.name;
+
+
+    }
+    public BlackJackPlayer(Integer balance) {
+
+        balance = this.balance;
     }
 
-    public void recieveWinnings() {
 
+
+
+    public BlackJackPlayer(){
+
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
+    public Integer getRemainingBalance() {
+        return remainingBalance;
+    }
+
+    public void setRemainingBalance(Integer remainingBalance) {
+        this.remainingBalance = remainingBalance;
+    }
+
+    public void placeBet(Integer betValue) {
+
+        remainingBalance = balance- betValue;
+
+    }
+
+    public Integer recieveWinnings() {
+
+        Integer integerInput = console.getIntegerInput("");
+
+        return integerInput;
     }
 }
