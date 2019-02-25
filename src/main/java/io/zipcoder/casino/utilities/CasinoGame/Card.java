@@ -4,7 +4,7 @@ public class Card {
 
     private Suit suit;
     private BlackJackEnum blackJackEnum;
-    private CardDefaultEnum cardDefaultEnum;
+    public CardDefaultEnum cardDefaultEnum;
 
     public Card (BlackJackEnum blackJackEnum, Suit suit)
     {
