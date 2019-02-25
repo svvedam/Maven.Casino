@@ -17,7 +17,7 @@ public class HandTest {
 
         Card cd1 = new Card(BlackJackEnum.KING,Suit.SPADE);
 
-        Card cd2 = new Card(BlackJackEnum.JACK,Suit.SPADE);
+        Card cd2 = new Card(BlackJackEnum.EIGHT,Suit.SPADE);
         Card cd3 = new Card(BlackJackEnum.QUEEN,Suit.SPADE);
 
         java.util.ArrayList<Card> mylist = new ArrayList<Card>();
@@ -26,7 +26,7 @@ public class HandTest {
        myhand.addCard(cd2);
        myhand.addCard(cd3);
 
-        int expectedvalue = 30;
+        int expectedvalue = 28;
         int actualvalue = myhand.getBlackJackValue();
 
        Assert.assertEquals(expectedvalue, actualvalue);
@@ -157,7 +157,7 @@ public class HandTest {
 
         java.util.ArrayList<Card> myList = new ArrayList<Card>();
 
-      
+
 
 
         Hand myhand = new Hand();
