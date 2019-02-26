@@ -23,7 +23,7 @@ public class Hand {
 
        int i = 0;
 
-
+        //TODO - make a boolean that set equal to true if any card checked in the loop is an ace
        for (i = 0; i < hand.size(); i++) {
 
            if (value < 21) {
