@@ -72,7 +72,7 @@ public class GoFish extends CardGame implements Game {
         for(int i = 0; i<otherPlayer.getPlayerHand().getSize(); i++)
         {
             ArrayList<Card> otherPlayerArrayList = otherPlayer.getPlayerHand().hand;
-            console.println("Entered master for loop ");
+
             CardDefaultEnum enumi = otherPlayerArrayList.get(i).getDefaultEnum();
             int cardValueenumi = (int) enumi.getCardDefaultEnum();
             if (input == cardValueenumi) {
@@ -89,48 +89,46 @@ public class GoFish extends CardGame implements Game {
                 console.println("The below list is for other player");
                 printCardsToConsole(otherPlayer);
                 flag = true;
+                playerTurn=1;
                 break;
             }
 
         }
         if(flag==false){
+            playerTurn=1;
             popCardFromDeck(currentPlayer, otherPlayer);
         }
 }
 
 public void popCardFromDeck(GoFishPlayer currentPlayer, GoFishPlayer otherPlayer){
+
     //If the values are not matching pop a card from the deck
     console.println("Card popped ");
     Card card = myDeck.regularDeck.pop();
+
     CardDefaultEnum defaultEnum = card.getDefaultEnum();
     int cardDeckEnum = (int)defaultEnum.getCardDefaultEnum();
     console.println("Popped card : "+ cardDeckEnum);
-    currentPlayer.addCard(card);
-    //Check the popped card from the deck with current players hand
-    ArrayList<Card> currentArrayList2 = currentPlayer.getPlayerHand().hand;
-    for(int j =0 ; j< currentPlayer.getPlayerHand().getSize() ; j++){
-        CardDefaultEnum enumj = currentArrayList2.get(j).getDefaultEnum();
-        int cardValueenumj = (int) enumj.getCardDefaultEnum();
-        //if match is found then remove the card from the hand and score++
-        if(cardDeckEnum==cardValueenumj){
-            currentPlayer.getPlayerHand().hand.remove(j);
-            currentPlayer.score++;
-            console.println("current player score: "+ currentPlayer.score);
-            console.println("Inside if : " );
-            printCardsToConsole(currentPlayer);
-            printCardsToConsole(otherPlayer);
-        }
-        else {
-            console.print("Inside else : " );
-            printCardsToConsole(currentPlayer);
-            printCardsToConsole(otherPlayer);
-            break;
-        }
-    }
 
+    //Check the popped card from the deck with current players hand
+   // ArrayList<Card> currentArrayList2 = currentPlayer.getPlayerHand().hand;
+    if(currentPlayer.getPlayerHand().hand.contains(card)){
+        currentPlayer.getPlayerHand().hand.remove(card);
+        currentPlayer.score++;
+        printCardsToConsole(currentPlayer);
+        printCardsToConsole(otherPlayer);
+        playerTurn=1;
+    }
+    else
+    {
+        currentPlayer.getPlayerHand().addCard(card);
+        printCardsToConsole(currentPlayer);
+        printCardsToConsole(otherPlayer);
+        playerTurn=2;
+    }
 }
     //Gets the index of the matched input
-    public int getIndexOfMatchedCard(GoFishPlayer currentPlayer, Integer input){
+    public int getIndexOfMatchedCard(GoFishPlayer currentPlayer, int input){
         int index=0;
         ArrayList<Card> currentPlayerList = currentPlayer.getPlayerHand().hand;
 
@@ -143,7 +141,7 @@ public void popCardFromDeck(GoFishPlayer currentPlayer, GoFishPlayer otherPlayer
         }
         return index;
     }
-
+//populates players hand
     public void populateGoFishHand() {
         //pop 7 cards and add to player 1 hand
         for (int i = 0; i < 7; i++) {
@@ -157,12 +155,13 @@ public void popCardFromDeck(GoFishPlayer currentPlayer, GoFishPlayer otherPlayer
         }
     }
 
-
+//populates players and list
     public void populatePlayersAndList(Hand player1, Hand player2) {
         //populate player1
         gfPlayer1.setName("GoFishPlayer1");
         gfPlayer1.setPlayerHand(player1);
         gfPlayer1.setScore(0);
+
         //populate player2
         gfPlayer2.setName("GoFishPlayer2");
         gfPlayer2.setPlayerHand(player2);
@@ -183,32 +182,36 @@ public void popCardFromDeck(GoFishPlayer currentPlayer, GoFishPlayer otherPlayer
                 CardDefaultEnum enumj = cardArrayList.get(j).getDefaultEnum();
 
                 if (enumi == enumj) {
-                    console.println("Duplicate found");
                     player.getPlayerHand().hand.remove(j);
                     player.getPlayerHand().hand.remove(i);
                     player.score++;
                 }
-                //console.println("Player score : " + player.getScore());
-               // console.println("Size of the array : " + cardArrayList.size());
-
             }
         }
     }
     public void printCardsToConsole(GoFishPlayer player) {
         //Print the cards
         ArrayList<Card> cardArrayList = player.getPlayerHand().hand;
-
+        console.println("Player name: "+player.getName());
         for (int i = 0; i < cardArrayList.size(); i++) {
             CardDefaultEnum enumi = cardArrayList.get(i).getDefaultEnum();
             int cardValueenumi = (int) enumi.getCardDefaultEnum();
-            console.println("Current Player cards : " + cardValueenumi);
+
+            console.println("Player cards : " + cardValueenumi);
         }
+        console.println("Score: "+ player.score);
         console.println("------------------");
     }
 
     public Integer getScore() {
-        return 1;
-        //Get the score of individual player by traversing thru the goFishPlayerList
+        // Return the winning score
+        Integer player1Score = gfPlayer1.score;
+        Integer player2Score = gfPlayer2.score;
+
+        if(player1Score>player2Score)
+            return player1Score;
+            else
+            return player2Score;
     }
 
     public static void main(String[] args) {
