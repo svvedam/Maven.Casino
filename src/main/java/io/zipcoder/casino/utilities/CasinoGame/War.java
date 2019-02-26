@@ -1,6 +1,8 @@
 package io.zipcoder.casino.utilities.CasinoGame;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 
 public class War extends CardGame implements Game {
@@ -9,11 +11,11 @@ public class War extends CardGame implements Game {
     public War(PlayerList playerList) {
     }
 
-    Hand player1Hand = new Hand();
-    Hand player2Hand = new Hand();
+    Stack<Card> player1Hand = new Stack<>();
+    Stack<Card> player2Hand = new Stack<>();
 
-    Hand player1DiscardPile = new Hand();
-    Hand player2DiscardPile = new Hand();
+    Stack<Card> player1DiscardPile = new Stack<>();
+    Stack<Card> player2DiscardPile = new Stack<>();
 
     Card p1WarCard;
     Card p2WarCard;
@@ -22,92 +24,76 @@ public class War extends CardGame implements Game {
 
     }
 
-    public static Hand getPlayer1Hand() {
+    public static Stack<Card> getPlayer1Hand() {
         Deck warPlayerDeck = new Deck();
-        Hand player1Hand = new Hand();
+        Stack<Card> player1Hand = new Stack<>();
 
         warPlayerDeck.buildRegularDeck();
         for (int i = 0; i < 26; i++) {
             Card card = warPlayerDeck.regularDeck.pop();
-            player1Hand.addCard(card);
+            player1Hand.push(card);
         }
         return player1Hand;
     }
 
-    public static Hand getPlayer2Hand() {
+    public static Stack<Card> getPlayer2Hand() {
         Deck warPlayerDeck = new Deck();
-        Hand player2Hand = new Hand();
+        Stack<Card> player2Hand = new Stack<>();
 
-        warPlayerDeck.buildRegularDeck();
         for (int i = 26; i < 52; i++) {
                 Card card = warPlayerDeck.regularDeck.pop();
-                player2Hand.addCard(card);
+                player2Hand.push(card);
             }
         return player2Hand;
     }
 
     public void play() {
-        Hand player1Hand = getPlayer1Hand();
-        Hand player2Hand = getPlayer2Hand();
+        Stack<Card> player1Hand = getPlayer1Hand();
+        Stack<Card> player2Hand = getPlayer2Hand();
 
-        if (player1Hand.getSize() != 0 && player2Hand.getSize() != 0) {
-            while (player1Hand.getSize() > 0 && player2Hand.getSize() > 0) {
-                Card cardForTurn1 = player1Hand.hand.get(0);
-                player1Hand.hand.remove(0);
-                System.out.println("Player1 played: " + cardForTurn1.toString());
-                Card cardForTurn2 = player2Hand.hand.get(0);
-                player2Hand.hand.remove(0);
-                System.out.println("Player2 played: " + cardForTurn2.toString());
-                if (player1Hand.getSize() == 0) {
-                    player1Hand = player1DiscardPile;
-                } else if (player2Hand.getSize() == 0) {
-                    player2Hand = player2DiscardPile;
-                }else if (player1Hand.getSize() == 0 && player1DiscardPile.getSize() == 0 || player2Hand.getSize() == 0 && player2DiscardPile.getSize() == 0){
-                    break;
-                }else if (cardForTurn1.cardDefaultEnum.compareTo(cardForTurn2.cardDefaultEnum) > 0) {
-                    player1DiscardPile.hand.add(cardForTurn1);
-                    player1DiscardPile.hand.add(cardForTurn2);
-                    System.out.println("Player 1 wins this round");
-                    System.out.println();
-                } else if (cardForTurn1.cardDefaultEnum.compareTo(cardForTurn2.cardDefaultEnum) < 0) {
-                    player2DiscardPile.hand.add(cardForTurn1);
-                    player2DiscardPile.hand.add(cardForTurn2);
-                    System.out.println("Player 2 wins this round");
-                    System.out.println();
-                } else {
-                    War();
-                }
-            }
-
-        } else {
-            if (player2Hand.getSize() == 0) {
+        while (!player1Hand.isEmpty() && !player2Hand.isEmpty()) {
+            Card cardForTurn1 = player1Hand.pop();
+            System.out.println("Player1 played: " + cardForTurn1.toString());
+            Card cardForTurn2 = player2Hand.pop();
+            System.out.println("Player2 played: " + cardForTurn2.toString());
+            if (player1Hand.isEmpty() && player1DiscardPile.isEmpty()) {
+                System.out.println("Player 2 wins, Game Over");
+                break;
+            } else if (player2Hand.isEmpty() && player2DiscardPile.isEmpty()) {
                 System.out.println("Player 1 wins, Game Over");
+                break;
+            } else if (player1Hand.isEmpty()) {
+                Collections.shuffle(player1DiscardPile);
+                player1Hand = player1DiscardPile;
+            } else if (player2Hand.isEmpty()) {
+                Collections.shuffle(player2DiscardPile);
+                player2Hand = player2DiscardPile;
+
+            } else if (cardForTurn1.cardDefaultEnum.compareTo(cardForTurn2.cardDefaultEnum) > 0) {
+                player1DiscardPile.push(cardForTurn1);
+                player1DiscardPile.push(cardForTurn2);
+                System.out.println("Player 1 wins this round");
+                System.out.println();
+            } else if (cardForTurn1.cardDefaultEnum.compareTo(cardForTurn2.cardDefaultEnum) < 0) {
+                player2DiscardPile.push(cardForTurn1);
+                player2DiscardPile.push(cardForTurn2);
+                System.out.println("Player 2 wins this round");
                 System.out.println();
             } else {
-                System.out.println("Player 2 wins, Game Over");
-                System.out.println();
+                War();
             }
         }
     }
 
     public void War() {
-        System.out.println("War!");
-        System.out.println();
-        if (player1Hand.getSize() < 4) {
-            System.out.println("Player 2 wins, Game Over");
+        while (player1Hand.size() > 4 && player2Hand.size() > 4) {
+            System.out.println("War!");
             System.out.println();
-        } else if (player2Hand.getSize() < 4) {
-            System.out.println("Player 1 wins, Game Over");
-            System.out.println();
-        } else {
-            Card p1WarCard1 = player1Hand.hand.get(0);
-            Card p1WarCard2 = player1Hand.hand.get(1);
-            Card p1WarCard3 = player1Hand.hand.get(2);
-            Card p1WarCard4 = player1Hand.hand.get(3);
-            player1Hand.hand.remove(0);
-            player1Hand.hand.remove(1);
-            player1Hand.hand.remove(2);
-            player1Hand.hand.remove(3);
+
+            Card p1WarCard1 = player1Hand.pop();
+            Card p1WarCard2 = player1Hand.pop();
+            Card p1WarCard3 = player1Hand.pop();
+            Card p1WarCard4 = player1Hand.pop();
             Integer p1Choice = console.getIntegerInput("Choose which card to flip: 1, 2, 3, or 4", 1, 2, 3, 4);
             System.out.println(p1Choice.toString());
             if (p1Choice == 1) {
@@ -122,14 +108,10 @@ public class War extends CardGame implements Game {
                 p1WarCard = p1WarCard4;
             }
 
-            Card p2WarCard1 = player2Hand.hand.get(0);
-            Card p2WarCard2 = player2Hand.hand.get(1);
-            Card p2WarCard3 = player2Hand.hand.get(2);
-            Card p2WarCard4 = player2Hand.hand.get(3);
-            player2Hand.hand.remove(0);
-            player2Hand.hand.remove(1);
-            player2Hand.hand.remove(2);
-            player2Hand.hand.remove(3);
+            Card p2WarCard1 = player2Hand.pop();
+            Card p2WarCard2 = player2Hand.pop();
+            Card p2WarCard3 = player2Hand.pop();
+            Card p2WarCard4 = player2Hand.pop();
             Integer p2Choice = console.getIntegerInput("Choose which card to flip: 1, 2, 3, or 4", 1, 2, 3, 4);
             System.out.println(p2Choice.toString());
             if (p2Choice == 1) {
@@ -145,28 +127,37 @@ public class War extends CardGame implements Game {
             }
             if (p1WarCard.cardDefaultEnum.compareTo(p2WarCard.cardDefaultEnum) > 0) {
                 System.out.println("Player 1 wins the war");
-                player1DiscardPile.hand.add(p1WarCard1);
-                player1DiscardPile.hand.add(p1WarCard2);
-                player1DiscardPile.hand.add(p1WarCard3);
-                player1DiscardPile.hand.add(p1WarCard4);
-                player1DiscardPile.hand.add(p2WarCard1);
-                player1DiscardPile.hand.add(p2WarCard2);
-                player1DiscardPile.hand.add(p2WarCard3);
-                player1DiscardPile.hand.add(p2WarCard4);
+                player1DiscardPile.push(p1WarCard1);
+                player1DiscardPile.push(p1WarCard2);
+                player1DiscardPile.push(p1WarCard3);
+                player1DiscardPile.push(p1WarCard4);
+                player1DiscardPile.push(p2WarCard1);
+                player1DiscardPile.push(p2WarCard2);
+                player1DiscardPile.push(p2WarCard3);
+                player1DiscardPile.push(p2WarCard4);
             } else if (p1WarCard.cardDefaultEnum.compareTo(p2WarCard.cardDefaultEnum) < 0) {
                 System.out.println("Player 2 wins the war");
-                player2DiscardPile.hand.add(p1WarCard1);
-                player2DiscardPile.hand.add(p1WarCard2);
-                player2DiscardPile.hand.add(p1WarCard3);
-                player2DiscardPile.hand.add(p1WarCard4);
-                player2DiscardPile.hand.add(p2WarCard1);
-                player2DiscardPile.hand.add(p2WarCard2);
-                player2DiscardPile.hand.add(p2WarCard3);
-                player2DiscardPile.hand.add(p2WarCard4);
-            } else {
+                player2DiscardPile.push(p1WarCard1);
+                player2DiscardPile.push(p1WarCard2);
+                player2DiscardPile.push(p1WarCard3);
+                player2DiscardPile.push(p1WarCard4);
+                player2DiscardPile.push(p2WarCard1);
+                player2DiscardPile.push(p2WarCard2);
+                player2DiscardPile.push(p2WarCard3);
+                player2DiscardPile.push(p2WarCard4);
+            } else if (p1WarCard.cardDefaultEnum.equals(p2WarCard.cardDefaultEnum)){
                 War();
+            } else {
+                if (player1Hand.size() < 4){
+                    System.out.println("Player 2 wins, Game Over");
+                    break;
+                } else if (player2Hand.size() < 4){
+                    System.out.println("Player 1 wins, Game Over");
+                    break;
+                }
             }
         }
+
     }
     public Integer getScore() {
         return null;
