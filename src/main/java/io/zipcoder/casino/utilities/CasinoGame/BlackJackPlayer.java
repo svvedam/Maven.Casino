@@ -75,7 +75,7 @@ public class BlackJackPlayer extends Player implements GamblingPlayer {
 
     }
 
-    
+
 
     public void receiveWinnings(Integer winnings) {
 

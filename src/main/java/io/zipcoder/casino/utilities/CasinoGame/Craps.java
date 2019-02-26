@@ -17,6 +17,10 @@ public class Craps extends DiceGame implements GamblingGame {
 
     }
 
+    public Craps(){
+        this(new CrapsPlayer(),new Console(System.in,System.out));
+    }
+
     @Override
     public void play() {
         console.println("Welcome to craps!%n%n");
