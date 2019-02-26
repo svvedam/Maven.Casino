@@ -3,7 +3,7 @@ package io.zipcoder.casino.utilities.CasinoGame;
 import java.util.function.Supplier;
 
 public enum GameEnum {
-//    BLACKJACK(BlackJack::new),
+    BLACKJACK(BlackJack::new),
     CRAPS(Craps::new),
     GOFISH(GoFish::new),
     WAR(War::new);

@@ -20,9 +20,9 @@ public class BlackJackPlayer extends Player implements GamblingPlayer {
 
    public BlackJackPlayer(String name, Integer balance){
 
-        name = this.name;
+        this.name = name;
 
-        balance = this.balance;
+        this.balance = balance;
     }
     public BlackJackPlayer(String name){
 
@@ -41,7 +41,7 @@ public class BlackJackPlayer extends Player implements GamblingPlayer {
 
 
     public BlackJackPlayer(){
-
+this("Player1", 10000);
 
     }
 

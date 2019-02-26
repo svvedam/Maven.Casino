@@ -157,10 +157,10 @@ public class BlackJack extends CardGame implements GamblingGame {
                                 endRound = true;
                                 break;
                             }
-
+                            //TODO - end first while loop here, ask user to hit again or stand (above here)
 
                             //Show dealers full hand
-
+                            //TODO - move dealer logic below any player input
                             //Check weather dealers value is higher than players and if game is still going
                             if ((dealerhd.getBlackJackValue() > playerhd.getBlackJackValue()
                                     && endRound == false)) {
@@ -175,6 +175,7 @@ public class BlackJack extends CardGame implements GamblingGame {
                             }
 
                         }
+                        //TODO - also put this in the player input loop
                         if (response == 2) //If player stands, end the loop
                         {
                             //break;
