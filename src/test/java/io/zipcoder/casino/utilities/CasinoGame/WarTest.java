@@ -10,7 +10,7 @@ public class WarTest {
         // given
         Integer expected = 26;
         // when
-        Integer actual = War.getPlayer1Hand().getSize();
+        Integer actual = War.getPlayer1Hand().size();
         // then
         Assert.assertEquals(expected, actual);
     }
@@ -20,7 +20,7 @@ public class WarTest {
         // given
         Integer expected = 26;
         // when
-        Integer actual = War.getPlayer2Hand().getSize();
+        Integer actual = War.getPlayer2Hand().size();
         // then
         Assert.assertEquals(expected, actual);
     }
