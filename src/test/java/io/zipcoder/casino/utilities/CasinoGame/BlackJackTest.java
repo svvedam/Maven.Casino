@@ -1,7 +1,10 @@
+
 package io.zipcoder.casino.utilities.CasinoGame;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+
 
 import java.util.ArrayList;
 
@@ -9,18 +12,24 @@ public class BlackJackTest {
 
     @Test
     public void play() {
+
+
+
     }
 
     @Test
-    public void giveWinnings() {
-        Player p1 = new Player ("Shuchi",20);
-        Player bjp = new Player ("Shuchi",50);
-        BlackJackPlayer bjp1 = new BlackJackPlayer(bjp);
-        BlackJack bj = new BlackJack(bjp1);
+    public void giveWinningsTest() {
+        BlackJackPlayer bjp1 = new BlackJackPlayer ();
+        BlackJackPlayer bjp2 = new BlackJackPlayer ();
+        BlackJack bj = new BlackJack();
 
         Integer expectedWinning = 100;
-        Integer actualWinnings = bj.giveWinnings();
-        Assert.assertEquals(expectedWinning, actualWinnings);
+
+          bjp1.setBalance(50);
+          bjp2.setBalance(20);
+          if (bjp1.balance>bjp2.balance)
+
+       Assert.assertEquals(expectedWinning,bj.giveWinnings());
 
 
 
@@ -29,28 +38,7 @@ public class BlackJackTest {
 
     }
 
-    @Test
-    public void getBet() {
-        ArrayList<Integer> betListt = new ArrayList<Integer>();
-        Player p1 = new Player("myname", 100);
-        PlayerList list = new PlayerList();
 
 
-       // BlackJack bj = new BlackJack(p1);
-
-
-       Integer expectedbet= 50;
-        Assert.assertFalse(betListt.isEmpty());
-
-
-
-
-
-
-
-    }
-
-    @Test
-    public void getScore() {
-    }
 }
+

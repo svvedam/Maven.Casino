@@ -26,7 +26,7 @@ public class GoFish extends CardGame implements Game {
         console = new Console(System.in, System.out);
     }
 
-    public void play() {
+    public void play() {//TODO - do this
         //Write the logic to play the game
         //Populate GoFish hand to the user
         console.println("***** Go Fish game *****");

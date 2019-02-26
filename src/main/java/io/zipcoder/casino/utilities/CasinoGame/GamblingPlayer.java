@@ -3,7 +3,7 @@ package io.zipcoder.casino.utilities.CasinoGame;
 public interface GamblingPlayer {
 
 
-    Integer placeBet();
+    void placeBet(Integer integer);
 
     void receiveWinnings(Integer winnings);
 }

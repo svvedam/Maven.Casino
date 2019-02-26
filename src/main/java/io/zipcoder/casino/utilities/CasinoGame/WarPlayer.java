@@ -1,4 +1,4 @@
 package io.zipcoder.casino.utilities.CasinoGame;
 
-public class WarPlayer {
+public class WarPlayer extends Player {
 }

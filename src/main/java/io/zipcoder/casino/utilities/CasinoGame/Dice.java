@@ -33,9 +33,13 @@ public class Dice {
         return diceValueList.get(diceNumber);
     }
 
+    public void setValue(Integer diceNumber, Integer value){
+        diceValueList.set(diceNumber,value);
+    }
+
     public void rollDice() {
         for (int i = 0; i < diceValueList.size(); i++){
-            diceValueList.set(i,diceVal.nextInt(5)+1);
+            diceValueList.set(i,diceVal.nextInt(6)+1);
         }
     }
 
