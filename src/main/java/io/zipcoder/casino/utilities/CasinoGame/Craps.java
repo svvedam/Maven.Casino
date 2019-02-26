@@ -140,16 +140,10 @@ public class Craps extends DiceGame implements GamblingGame {
     //Pay bets according to conditionals
     public void anytimeRollActions(){
         for(CrapsBet betChecker : CrapsBet.values()) {
-            //Hardways
-
-            if (crapsDice.getValue(0).equals(crapsDice.getValue(1))) {
-                crapsPlayer.receiveWinnings(betChecker.checkHardwaysWins(crapsDice.getSum()));
-            }else if(true) {
-
-                crapsPlayer.receiveWinnings(betChecker.checkOneTimeWins(crapsDice.getSum()));
+            crapsPlayer.receiveWinnings(betChecker.checkOneTimeWins(crapsDice.getSum()));
             }
         }
-    }
+
     public void pointIsOffAfterRollActions(){
         for(CrapsRolls roll : CrapsRolls.values()){
             if(roll.value == crapsDice.getSum()){

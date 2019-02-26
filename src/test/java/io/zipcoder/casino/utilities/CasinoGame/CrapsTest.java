@@ -372,6 +372,7 @@ public class CrapsTest {
         CrapsBet.HARD10.placeBet(expectedBet);
         craps.payoutPhase();
         Assert.assertNotEquals(expectedBalance,crapsPlayer.getBalance());
+        Assert.assertEquals(startingPoint,CrapsBet.HARD10.currentBet);
     }
 
 

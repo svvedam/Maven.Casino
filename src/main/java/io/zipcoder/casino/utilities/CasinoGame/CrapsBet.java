@@ -1,8 +1,8 @@
 package io.zipcoder.casino.utilities.CasinoGame;
 
 public enum CrapsBet {
-    PASSLINE(1,1,new int[]{0}),
-    DONTPASS(1,1,new int[]{0}),
+    PASSLINE(1,1,new int[]{0},false),
+    DONTPASS(1,1,new int[]{0},false),
 //    COME(1,1),
 //    DONTCOME(1,1),
 //    ODDS4OR10(2,1),
@@ -17,26 +17,28 @@ public enum CrapsBet {
 //    BIG6(1,1),
 //    BIG8(1,1),
 //    FIELD(2,1),
-//    HARD4(7,1),
-//    HARD6(9,1),
-//    HARD8(9,1),
-    HARD10(7,1,new int[]{10}),
-    ANY7(4,1,new int[]{7}),
-    ANY11(15,1,new int[]{11}),
-    ANYCRAPS(7,1,new int[]{2,3,12}),
-    ACEDEUCE(15,1,new int[]{3}),
-    ACES(30,1,new int[]{2}),
-    BOXCAR(30,1,new int[]{12});
+    HARD4(7,1,new int[]{4},true),
+    HARD6(9,1, new int[]{6},true),
+    HARD8(9,1,new int[]{8},true),
+    HARD10(7,1,new int[]{10},true),
+    ANY7(4,1,new int[]{7},false),
+    ANY11(15,1,new int[]{11},false),
+    ANYCRAPS(7,1,new int[]{2,3,12},false),
+    ACEDEUCE(15,1,new int[]{3},false),
+    ACES(30,1,new int[]{2},false),
+    BOXCAR(30,1,new int[]{12},false);
 
 public Integer[] betOdds = new Integer[2];
 public Integer currentBet;
 public int[] oneTimeWins;
+public boolean isHardway;
 Console console = new Console(System.in,System.out);
-    CrapsBet(int multiplier,int divisor,int[] oneTimeWins) {
+    CrapsBet(int multiplier,int divisor,int[] oneTimeWins,boolean isHardway) {
         this.betOdds[0] = multiplier;
         this.betOdds[1] = divisor;
         this.currentBet = 0;
         this.oneTimeWins = oneTimeWins;
+        this.isHardway = isHardway;
 
     }
 
@@ -64,25 +66,15 @@ Console console = new Console(System.in,System.out);
         for (int winCheck : oneTimeWins) {
             if(winCheck == roll){
                 Integer winnings = getPayout();
-                this.clearBet();
+                this.currentBet=0;
                 return winnings;
             }
         }
+
         return 0;
     }
 
-    public Integer checkHardwaysWins(Integer roll) {
-        if (roll != 2 && roll != 12) {
-            for (int winCheck : oneTimeWins) {
-                if (winCheck == roll) {
-                    Integer winnings = getPayout();
-                    this.clearBet();
-                    return winnings;
-                }
-            }
-        }
-        return 0;
-    }
+
 
 }
 
