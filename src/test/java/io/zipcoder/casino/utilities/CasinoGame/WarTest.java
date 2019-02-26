@@ -1,5 +1,6 @@
 package io.zipcoder.casino.utilities.CasinoGame;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class WarTest {
@@ -7,9 +8,20 @@ public class WarTest {
     @Test
     public void getPlayer1HandTest(){
         // given
-        Player player1 = new Player("Alex", 0);
-        Player player2 = new Player("Swathi", 0);
+        Integer expected = 26;
         // when
+        Integer actual = War.getPlayer1Hand().getSize();
         // then
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getPlayer2HandTest(){
+        // given
+        Integer expected = 26;
+        // when
+        Integer actual = War.getPlayer2Hand().getSize();
+        // then
+        Assert.assertEquals(expected, actual);
     }
 }
