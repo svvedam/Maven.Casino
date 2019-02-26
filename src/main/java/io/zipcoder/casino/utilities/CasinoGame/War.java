@@ -51,37 +51,36 @@ public class War extends CardGame implements Game {
         Stack<Card> player1Hand = getPlayer1Hand();
         Stack<Card> player2Hand = getPlayer2Hand();
 
-        while (!player1Hand.isEmpty() && !player2Hand.isEmpty()) {
+        while (!player1Hand.isEmpty() || !player1DiscardPile.isEmpty() && !player2Hand.isEmpty() || !player2DiscardPile.isEmpty()) {
             Card cardForTurn1 = player1Hand.pop();
             System.out.println("Player1 played: " + cardForTurn1.toString());
             Card cardForTurn2 = player2Hand.pop();
             System.out.println("Player2 played: " + cardForTurn2.toString());
-            if (player1Hand.isEmpty() && player1DiscardPile.isEmpty()) {
-                System.out.println("Player 2 wins, Game Over");
-                break;
-            } else if (player2Hand.isEmpty() && player2DiscardPile.isEmpty()) {
-                System.out.println("Player 1 wins, Game Over");
-                break;
-            } else if (player1Hand.isEmpty()) {
-                Collections.shuffle(player1DiscardPile);
-                player1Hand = player1DiscardPile;
-            } else if (player2Hand.isEmpty()) {
-                Collections.shuffle(player2DiscardPile);
-                player2Hand = player2DiscardPile;
-
-            } else if (cardForTurn1.cardDefaultEnum.compareTo(cardForTurn2.cardDefaultEnum) > 0) {
-                player1DiscardPile.push(cardForTurn1);
-                player1DiscardPile.push(cardForTurn2);
-                System.out.println("Player 1 wins this round");
-                System.out.println();
-            } else if (cardForTurn1.cardDefaultEnum.compareTo(cardForTurn2.cardDefaultEnum) < 0) {
-                player2DiscardPile.push(cardForTurn1);
-                player2DiscardPile.push(cardForTurn2);
-                System.out.println("Player 2 wins this round");
-                System.out.println();
-            } else {
-                War();
-            }
+                if (cardForTurn1.cardDefaultEnum.compareTo(cardForTurn2.cardDefaultEnum) > 0) {
+                    player1DiscardPile.push(cardForTurn1);
+                    player1DiscardPile.push(cardForTurn2);
+                    System.out.println("Player 1 wins this round");
+                    System.out.println();
+                } else if (cardForTurn1.cardDefaultEnum.compareTo(cardForTurn2.cardDefaultEnum) < 0) {
+                    player2DiscardPile.push(cardForTurn1);
+                    player2DiscardPile.push(cardForTurn2);
+                    System.out.println("Player 2 wins this round");
+                    System.out.println();
+                } else if (cardForTurn1.cardDefaultEnum.equals(cardForTurn2.cardDefaultEnum)) {
+                    War();
+                } else if (player1Hand.isEmpty() && player1DiscardPile.isEmpty()) {
+                    System.out.println("Player 2 wins, Game Over");
+                    break;
+                } else if (player2Hand.isEmpty() && player2DiscardPile.isEmpty()) {
+                    System.out.println("Player 1 wins, Game Over");
+                    break;
+                } else if (player1Hand.isEmpty()) {
+                    Collections.shuffle(player1DiscardPile);
+                    player1Hand = player1DiscardPile;
+                } else if (player2Hand.isEmpty()) {
+                    Collections.shuffle(player2DiscardPile);
+                    player2Hand = player2DiscardPile;
+                }
         }
     }
 
