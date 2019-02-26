@@ -15,7 +15,7 @@ public class BlackJackPlayer extends Player implements GamblingPlayer {
   public Integer balance;
   public Integer remainingBalance;
 
-    Console console = new Console(System.in, System.out);
+
 
 
    public BlackJackPlayer(String name, Integer balance){
@@ -75,11 +75,13 @@ public class BlackJackPlayer extends Player implements GamblingPlayer {
 
     }
 
-    public Integer recieveWinnings() {
+    
+
+    public void receiveWinnings(Integer winnings) {
 
         Integer integerInput = console.getIntegerInput("");
 
-        return integerInput;
+
     }
 
 
