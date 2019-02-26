@@ -7,13 +7,8 @@ public class Craps extends DiceGame implements GamblingGame {
     public Console console;
     private Dice crapsDice = new Dice();
     public CrapsPlayer crapsPlayer;
-    private Integer point;
+    public Integer point;
     private boolean playing;
-
-//    private java.util.ArrayList<CrapsPlayer> crapsPlayerList;
-
-
-
 
     public Craps(CrapsPlayer crapsPlayer, Console console) {
         this.crapsPlayer = crapsPlayer;
@@ -24,6 +19,8 @@ public class Craps extends DiceGame implements GamblingGame {
 
     @Override
     public void play() {
+        console.println("Welcome to craps!%n%n");
+        console.println("Your starting balance is: $" + crapsPlayer.getBalance());
         playing = true;
         while(playing){
             bettingPhase();
@@ -31,6 +28,7 @@ public class Craps extends DiceGame implements GamblingGame {
             payoutPhase();
             askIfUserWantsToStopPlaying();
         }
+        console.println("Cya! Your ending balance is: $" + crapsPlayer.getBalance());
     }
 
     public boolean askIfUserWantsToMakeABet() {
@@ -58,29 +56,25 @@ public class Craps extends DiceGame implements GamblingGame {
 
 
     }
-
-    public CrapsBet askThePlayerWhatTypeOfBetTheyWouldLikeToMakeAndThenReturnThatTypeOfBet() {
+    //Betting phase methods
+    public CrapsBet askThePlayerWhatTypeOfBetTheyWouldLikeToMakeAndThenReturnThatTypeOfBet() {//TODO - recursive
         String response = console.getStringInput("What type of bet would you like to make?%n");
         for (CrapsBet thisBet : CrapsBet.values()) {
             if (thisBet.name().equalsIgnoreCase(response)) {
                 return thisBet;
-            } else {
-                console.println("Not a valid bet choice%n");
-                console.println("Valid bet choices are: %n");
-                printBetChoices();
-                return askThePlayerWhatTypeOfBetTheyWouldLikeToMakeAndThenReturnThatTypeOfBet();
             }
         }
-        return askThePlayerWhatTypeOfBetTheyWouldLikeToMakeAndThenReturnThatTypeOfBet();
+            console.println("Not a valid bet choice%n");
+            console.println("Valid bet choices are: %n");
+            printBetChoices();
+            return askThePlayerWhatTypeOfBetTheyWouldLikeToMakeAndThenReturnThatTypeOfBet();
     }
-
     public void printBetChoices() {
         for (CrapsBet thisBet: CrapsBet.values()) {
             console.println(thisBet.name());
             console.println("");
         }
     }
-
     public void takeThePlayerBetAndPutItOnTheAppropriateBetLocation(){
 
         Integer betAmount = getBet();
@@ -88,7 +82,6 @@ public class Craps extends DiceGame implements GamblingGame {
         thisBet.placeBet(betAmount);
         console.println("You've bet: $" + betAmount + " on the " + thisBet.name() + "%n");
     }
-
     public void bettingPhase(){ //TODO - fix recursive calls and add feature to show current bets made
         if(point == 0) {
             if (askIfUserWantsToMakeABet()) {
@@ -97,7 +90,7 @@ public class Craps extends DiceGame implements GamblingGame {
             }
         }
     }
-
+    //Roll phase methods
     public void rollDiceAndPrintResult(){
         console.println("%nShootin!!! %n%n");
         crapsDice.rollDice();
@@ -105,7 +98,10 @@ public class Craps extends DiceGame implements GamblingGame {
         console.println("Die 2 landed on: " + crapsDice.getValue(1) + "%n");
         console.println("You rolled a: " + crapsDice.getSum() +"%n");
     }
-
+    public void setDiceSum(Integer num1, Integer num2){
+        crapsDice.setValue(0,num1);
+        crapsDice.setValue(1,num2);
+    }
     public void tellUserToShootUntilTheyDo(){ //TODO - recursive
         String shoot = console.getStringInput("Time to throw the dice!%n%nType 'shoot' shooter!%n");
         if("shoot".equalsIgnoreCase(shoot)|| "r".equalsIgnoreCase(shoot)){
@@ -116,7 +112,7 @@ public class Craps extends DiceGame implements GamblingGame {
             tellUserToShootUntilTheyDo();
         }
     }
-
+    //Craps winning conditions
     public void passWin(){
         console.println("Winner! Pay the Pass and take the Dont's");
         crapsPlayer.receiveWinnings(CrapsBet.PASSLINE.getPayout());
@@ -141,7 +137,19 @@ public class Craps extends DiceGame implements GamblingGame {
         console.println("Point away!");
         point = 0;
     }
+    //Pay bets according to conditionals
+    public void anytimeRollActions(){
+        for(CrapsBet betChecker : CrapsBet.values()) {
+            //Hardways
 
+            if (crapsDice.getValue(0).equals(crapsDice.getValue(1))) {
+                crapsPlayer.receiveWinnings(betChecker.checkHardwaysWins(crapsDice.getSum()));
+            }else if(true) {
+
+                crapsPlayer.receiveWinnings(betChecker.checkOneTimeWins(crapsDice.getSum()));
+            }
+        }
+    }
     public void pointIsOffAfterRollActions(){
         for(CrapsRolls roll : CrapsRolls.values()){
             if(roll.value == crapsDice.getSum()){
@@ -176,6 +184,8 @@ public class Craps extends DiceGame implements GamblingGame {
         }
     }
     public void payoutPhase(){
+
+        anytimeRollActions();
         if(point == 0){
             pointIsOffAfterRollActions();
         }
@@ -183,7 +193,7 @@ public class Craps extends DiceGame implements GamblingGame {
             pointIsOnAfterRollActions();
         }
     }
-
+    //Ask if user wants to stop playing
     public void askIfUserWantsToStopPlaying(){
         if (point == 0) {
             console.println("Your current balance is: $" + crapsPlayer.getBalance());

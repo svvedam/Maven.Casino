@@ -37,21 +37,20 @@ public class CrapsBetEnumTest {
     @Test
     public void getPayoutTest1(){
         expectedBet = 50;
-        expectedPayout = 100;
+        expectedPayout = 50;
         CrapsBet.PASSLINE.placeBet(expectedBet);
         actualPayout = CrapsBet.PASSLINE.getPayout();
         Assert.assertEquals(expectedPayout,actualPayout);
         Integer didBetClear = CrapsBet.PASSLINE.currentBet;
-        Integer finalbet = 0;
-        Assert.assertEquals(finalbet,didBetClear);
+
     }
 
     @Test
     public void getPayoutTest2(){
         expectedBet = 50;
-        expectedPayout = 110;
-        CrapsBet.PASSLINE.placeBet(expectedBet);
-        actualPayout = CrapsBet.PASSLINE.getPayout();
+        expectedPayout = 50;
+        CrapsBet.DONTPASS.placeBet(expectedBet);
+        actualPayout = CrapsBet.DONTPASS.getPayout();
         Assert.assertEquals(expectedPayout,actualPayout);
     }
 
