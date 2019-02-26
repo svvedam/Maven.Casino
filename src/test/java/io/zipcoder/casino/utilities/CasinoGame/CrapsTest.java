@@ -348,34 +348,77 @@ public class CrapsTest {
         Assert.assertEquals(expectedBalance,crapsPlayer.getBalance());
     }
     //Hardways tests
+//    @Test
+//    public void PayoutTest18(){
+//        expectedBet = 50;
+//        expectedBalance = 500 + (7 * expectedBet);
+//        Integer startingPoint = 0;
+//        Integer expectedRoll = 10;
+//        craps.setDiceSum(5,5);
+//        craps.point = startingPoint;
+//        CrapsBet.HARD10.placeBet(expectedBet);
+//        craps.payoutPhase();
+//        Assert.assertEquals(expectedBalance,crapsPlayer.getBalance());
+//    }
+//
+//    @Test
+//    public void PayoutTest19(){
+//        expectedBet = 50;
+//        expectedBalance = 500 + (7 * expectedBet);
+//        Integer startingPoint = 0;
+//        Integer expectedRoll = 10;
+//        craps.setDiceSum(4,6);
+//        craps.point = startingPoint;
+//        CrapsBet.HARD10.placeBet(expectedBet);
+//        craps.payoutPhase();
+//        Assert.assertNotEquals(expectedBalance,crapsPlayer.getBalance());
+//        Assert.assertEquals(startingPoint,CrapsBet.HARD10.currentBet);
+//    }
+
     @Test
-    public void PayoutTest18(){
+    public void PayoutTest20(){
         expectedBet = 50;
-        expectedBalance = 500 + (7 * expectedBet);
+        expectedBalance = 500;
         Integer startingPoint = 0;
-        Integer expectedRoll = 10;
-        craps.setDiceSum(5,5);
+        Integer expectedRoll = 12;
+        craps.setDiceSum(3,6);
         craps.point = startingPoint;
-        CrapsBet.HARD10.placeBet(expectedBet);
+        CrapsBet.BOXCAR.placeBet(expectedBet);
+        craps.payoutPhase();
+        craps.setDiceSum(6,6);
         craps.payoutPhase();
         Assert.assertEquals(expectedBalance,crapsPlayer.getBalance());
     }
 
-    @Test
-    public void PayoutTest19(){
-        expectedBet = 50;
-        expectedBalance = 500 + (7 * expectedBet);
-        Integer startingPoint = 0;
-        Integer expectedRoll = 10;
-        craps.setDiceSum(4,6);
-        craps.point = startingPoint;
-        CrapsBet.HARD10.placeBet(expectedBet);
-        craps.payoutPhase();
-        Assert.assertNotEquals(expectedBalance,crapsPlayer.getBalance());
-        Assert.assertEquals(startingPoint,CrapsBet.HARD10.currentBet);
-    }
-
-
+//    @Test
+//    public void testOddsSimpleBet(){
+//        expectedBet =50;
+//        expectedBalance = 500 + ((expectedBalance *6 )/5);
+//        Integer startingPoint = 6;
+//        craps.setDiceSum(3,3);
+//        craps.point = startingPoint;
+//        CrapsBet.PASSLINE.placeBet(expectedBet);
+//        if(craps.point == 6 || craps.point == 8){
+//            CrapsBet.ODDS6OR8.placeBet(CrapsBet.PASSLINE.currentBet);
+//
+//        }
+//        craps.payoutPhase();
+//        Assert.assertEquals(expectedBalance,crapsPlayer.getBalance());
+//    }
+//
+//    @Test
+//    public void testOddsBet(){
+//        expectedBet =50;
+//        expectedBalance = 500 + ((expectedBalance*6)/5);
+//        Integer startingPoint = 0;
+//        craps.setDiceSum(3,3);
+//        craps.point = startingPoint;
+//        CrapsBet.PASSLINE.placeBet(expectedBet);
+//        craps.payoutPhase();
+//        CrapsBet.ODDS6OR8.placeBet(expectedBet);
+//        craps.payoutPhase();
+//        Assert.assertEquals(expectedBalance,crapsPlayer.getBalance());
+//    }
 
 
 

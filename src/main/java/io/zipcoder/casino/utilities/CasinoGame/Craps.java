@@ -1,7 +1,5 @@
 package io.zipcoder.casino.utilities.CasinoGame;
 
-import java.util.EnumSet;
-
 public class Craps extends DiceGame implements GamblingGame {
     private java.util.ArrayList<Integer> betList;
     public Console console;
@@ -9,6 +7,7 @@ public class Craps extends DiceGame implements GamblingGame {
     public CrapsPlayer crapsPlayer;
     public Integer point;
     private boolean playing;
+    boolean comeOut = false;
 
     public Craps(CrapsPlayer crapsPlayer, Console console) {
         this.crapsPlayer = crapsPlayer;
@@ -28,7 +27,7 @@ public class Craps extends DiceGame implements GamblingGame {
         playing = true;
         while(playing){
             bettingPhase();
-            tellUserToShootUntilTheyDo();
+            rollPhase();
             payoutPhase();
             askIfUserWantsToStopPlaying();
         }
@@ -92,6 +91,18 @@ public class Craps extends DiceGame implements GamblingGame {
                 takeThePlayerBetAndPutItOnTheAppropriateBetLocation();
                 bettingPhase();
             }
+        }else if(comeOut){
+            askForOddsBetAndAssignBetToAppropriateBet();
+            comeOut = false;
+        }
+    }
+    public void askForOddsBetAndAssignBetToAppropriateBet(){
+        String response = console.getStringInput("would you like to place an odds bet?");
+        if("yes".equalsIgnoreCase(response) || "y".equalsIgnoreCase(response)){
+            if(point == 6 || point == 8){
+                CrapsBet.ODDS6OR8.placeBet(CrapsBet.PASSLINE.currentBet);
+                crapsPlayer.placeBet(CrapsBet.PASSLINE.currentBet);
+            }
         }
     }
     //Roll phase methods
@@ -106,20 +117,22 @@ public class Craps extends DiceGame implements GamblingGame {
         crapsDice.setValue(0,num1);
         crapsDice.setValue(1,num2);
     }
-    public void tellUserToShootUntilTheyDo(){ //TODO - recursive
+    public void rollPhase(){ //TODO - recursive
         String shoot = console.getStringInput("Time to throw the dice!%n%nType 'shoot' shooter!%n");
         if("shoot".equalsIgnoreCase(shoot)|| "r".equalsIgnoreCase(shoot)){
             rollDiceAndPrintResult();
         }
         else {
             console.println("Cmon... shooter's gotta shoot!");
-            tellUserToShootUntilTheyDo();
+            rollPhase();
         }
     }
     //Craps winning conditions
     public void passWin(){
         console.println("Winner! Pay the Pass and take the Dont's");
         crapsPlayer.receiveWinnings(CrapsBet.PASSLINE.getPayout());
+        crapsPlayer.receiveWinnings(CrapsBet.ODDS6OR8.getPayout());
+        CrapsBet.ODDS6OR8.clearBet();
         CrapsBet.DONTPASS.clearBet();
     }
     public void craps(){
@@ -130,6 +143,7 @@ public class Craps extends DiceGame implements GamblingGame {
     public void establishPoint(Integer rollValue){
         point = rollValue;
         console.println(point +"! The point is " + point + "!");
+        comeOut =true;
     }
     public void sevenOutPointAway(){
         console.println("7 out! Point away!");
@@ -147,7 +161,14 @@ public class Craps extends DiceGame implements GamblingGame {
             crapsPlayer.receiveWinnings(betChecker.checkOneTimeWins(crapsDice.getSum()));
             }
         }
-
+    public void clearOneTimeBets(){
+        CrapsBet.ANY7.clearBet();
+        CrapsBet.ANY11.clearBet();
+        CrapsBet.ACEDEUCE.clearBet();
+        CrapsBet.ANYCRAPS.clearBet();
+        CrapsBet.ACES.clearBet();
+        CrapsBet.BOXCAR.clearBet();
+    }
     public void pointIsOffAfterRollActions(){
         for(CrapsRolls roll : CrapsRolls.values()){
             if(roll.value == crapsDice.getSum()){
@@ -190,6 +211,7 @@ public class Craps extends DiceGame implements GamblingGame {
         else{
             pointIsOnAfterRollActions();
         }
+        clearOneTimeBets();
     }
     //Ask if user wants to stop playing
     public void askIfUserWantsToStopPlaying(){
