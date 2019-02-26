@@ -17,7 +17,9 @@ public class Craps extends DiceGame implements GamblingGame {
     }
 
     public Craps(){
+
         this(new CrapsPlayer(),new Console(System.in,System.out));
+
     }
 
     @Override
@@ -36,12 +38,20 @@ public class Craps extends DiceGame implements GamblingGame {
 
     public boolean askIfUserWantsToMakeABet() {
 
-        String response = console.getStringInput("Would you like to make a bet?%nType 'yes' or 'y' to do so.");
+        String response = console.getStringInput("Would you like to make a bet?%nType 'yes' or 'y' to do so.%nType 'bets' to list your current active bets");
         if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("y")) {
             return true;
-        } else {
+        }
+        else if("bets".equalsIgnoreCase(response)){
+            for(CrapsBet thisBet : CrapsBet.values()){
+                console.println(thisBet.name() + ": $" + thisBet.currentBet);
+
+            }
+        }
+        else {
             return false;
         }
+        return askIfUserWantsToMakeABet();
     }
 
     @Override
@@ -62,15 +72,19 @@ public class Craps extends DiceGame implements GamblingGame {
     //Betting phase methods
     public CrapsBet askThePlayerWhatTypeOfBetTheyWouldLikeToMakeAndThenReturnThatTypeOfBet() {//TODO - recursive
         String response = console.getStringInput("What type of bet would you like to make?%n");
+        return cycleThroughPossibleBetsReturnBetEnum(response);
+
+    }
+    public CrapsBet cycleThroughPossibleBetsReturnBetEnum(String response){
         for (CrapsBet thisBet : CrapsBet.values()) {
             if (thisBet.name().equalsIgnoreCase(response)) {
                 return thisBet;
             }
         }
-            console.println("Not a valid bet choice%n");
-            console.println("Valid bet choices are: %n");
-            printBetChoices();
-            return askThePlayerWhatTypeOfBetTheyWouldLikeToMakeAndThenReturnThatTypeOfBet();
+        console.println("Not a valid bet choice%n");
+        console.println("Valid bet choices are: %n");
+        printBetChoices();
+        return askThePlayerWhatTypeOfBetTheyWouldLikeToMakeAndThenReturnThatTypeOfBet();
     }
     public void printBetChoices() {
         for (CrapsBet thisBet: CrapsBet.values()) {
@@ -102,7 +116,14 @@ public class Craps extends DiceGame implements GamblingGame {
             if(point == 6 || point == 8){
                 CrapsBet.ODDS6OR8.placeBet(CrapsBet.PASSLINE.currentBet);
                 crapsPlayer.placeBet(CrapsBet.PASSLINE.currentBet);
+            }else if(point == 4 || point == 10){
+                CrapsBet.ODDS4OR10.placeBet(CrapsBet.PASSLINE.currentBet);
+                crapsPlayer.placeBet(CrapsBet.PASSLINE.currentBet);
+            }else if(point == 5 || point == 9){
+                CrapsBet.ODDS5OR9.placeBet(CrapsBet.PASSLINE.currentBet);
+                crapsPlayer.placeBet(CrapsBet.PASSLINE.currentBet);
             }
+            console.println("you've successfully placed an odds bet on your PASSLINE bet%n");
         }
     }
     //Roll phase methods
@@ -132,7 +153,11 @@ public class Craps extends DiceGame implements GamblingGame {
         console.println("Winner! Pay the Pass and take the Dont's");
         crapsPlayer.receiveWinnings(CrapsBet.PASSLINE.getPayout());
         crapsPlayer.receiveWinnings(CrapsBet.ODDS6OR8.getPayout());
+        crapsPlayer.receiveWinnings(CrapsBet.ODDS4OR10.getPayout());
+        crapsPlayer.receiveWinnings(CrapsBet.ODDS5OR9.getPayout());
         CrapsBet.ODDS6OR8.clearBet();
+        CrapsBet.ODDS4OR10.clearBet();
+        CrapsBet.ODDS5OR9.clearBet();
         CrapsBet.DONTPASS.clearBet();
     }
     public void craps(){
@@ -148,6 +173,9 @@ public class Craps extends DiceGame implements GamblingGame {
     public void sevenOutPointAway(){
         console.println("7 out! Point away!");
         CrapsBet.PASSLINE.clearBet();
+        CrapsBet.ODDS6OR8.clearBet();
+        CrapsBet.ODDS4OR10.clearBet();
+        CrapsBet.ODDS5OR9.clearBet();
         crapsPlayer.receiveWinnings(CrapsBet.DONTPASS.getPayout());
         point = 0;
     }
