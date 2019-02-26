@@ -8,29 +8,77 @@ public class BlackJackPlayer extends Player implements GamblingPlayer {
     String bjname;
     Integer bjbalance;
 
-    public  BlackJackPlayer(){
+
+
+  public String name ;
+  public Integer balance;
+  public Integer remainingBalance;
+
+    Console console = new Console(System.in, System.out);
+
+
+   public BlackJackPlayer(String name, Integer balance){
+
+        name = this.name;
+
+        balance = this.balance;
+    }
+    public BlackJackPlayer(String name){
+
+        name = this.name;
+
+
+    }
+    public BlackJackPlayer(Integer balance) {
+
+        balance = this.balance;
+    }
+
+
+
+
+
+
+    public BlackJackPlayer(){
+
 
     }
 
-  public BlackJackPlayer(String name ,Integer balance){
+    public String getName() {
+        return name;
+    }
 
-      super( name ,  balance );
+    public void setName(String name) {
+        this.name = name;
+    }
 
-      bjname = name;
+    public Integer getBalance() {
+        return balance;
+    }
 
-       bjbalance = balance;
-}
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
+    public Integer getRemainingBalance() {
+        return remainingBalance;
+    }
+
+    public void setRemainingBalance(Integer remainingBalance) {
+        this.remainingBalance = remainingBalance;
+    }
 
     public void placeBet(Integer betValue) {
 
-        Integer remainingbalance = balance- betValue;
+        remainingBalance = balance- betValue;
 
     }
 
+    public Integer recieveWinnings() {
 
-    @Override
-    public void receiveWinnings() {
+        Integer integerInput = console.getIntegerInput("");
 
+        return integerInput;
     }
     public Integer recieveWinnings() {
 

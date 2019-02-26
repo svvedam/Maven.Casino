@@ -1,4 +1,6 @@
 package io.zipcoder.casino.utilities.CasinoGame;
+import org.junit.Assert;
+import org.junit.Test;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -6,28 +8,21 @@ import org.junit.Test;
 public class BlackJackPlayerTest {
 
     @Test
-    public void blackJackPlayerTest(){
-      //Given
-        String expectedName ="abcd";
-        Integer expectedBalance =40;
-        BlackJackPlayer blackJackPlayer = new BlackJackPlayer(expectedName,expectedBalance);
 
 
-        //When
-        String actualName = blackJackPlayer.getName();
-        Integer actualBalance = blackJackPlayer.getBalance();
+    public void blackJackPlayernameBalanceTest() {
 
-        //Then
-        Assert.assertEquals(expectedName,actualName);
-        Assert.assertEquals(expectedBalance,actualBalance);
-
-
-    }
-    @Test
-    public void placeBetTest(){
-
+        BlackJackPlayer  bj = new BlackJackPlayer();
         //Given
+        Integer expectedBalance = 50;
+        String expectedName = "Myname";
+        bj.setName(expectedName);
+        bj.setBalance(expectedBalance);
+        String actualName =bj.getName();
+        Integer actualBalance =bj.getBalance();
 
-
+        Assert.assertEquals(expectedName, actualName);
+        Assert.assertEquals(expectedBalance, actualBalance);
     }
 }
+
